@@ -29,7 +29,7 @@ body {
   border: none;
   padding: 10px;
   border-radius: 4px;
-  border-bottom: 4px solid #15824B;
+    border-bottom: 4px solid #15824B;
   transition: all .2s ease;
   outline: none;
   text-transform: uppercase;
@@ -121,13 +121,34 @@ body {
   text-transform: uppercase;
   font-weight: 700;
 }
+.upload-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: lightSeaGreen;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
 
-.remove-image:hover {
+.remove-image:hover{
   background: #c13b2a;
   color: #ffffff;
   transition: all .2s ease;
   cursor: pointer;
 }
+.upload-image:hover{
+  background: #15824B;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
 
 .remove-image:active {
   border: 0;
@@ -152,19 +173,19 @@ h1 {
 }
 
   </style>
-
 <head>
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="../static/js/main.js"></script>
 </head>
 <div id="header">
   <h1>circlejerk</h1>
 </div>
 <body>
 <div class="file-upload">
-  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add Image</button>
+  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">UPLOAD</button>
 
   <div class="image-upload-wrap">
-    <input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
+    <input id="upload-file" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
     <div class="drag-text">
       <h3>Drag and drop a file or select add Image</h3>
     </div>
@@ -173,6 +194,7 @@ h1 {
     <img class="file-upload-image" src="#" alt="your image" />
     <div class="image-title-wrap">
       <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
+      <button type="button" onclick="file_upload()" class="upload-image">Upload</button>
     </div>
   </div>
 </div>

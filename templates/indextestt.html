@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>simple store</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/main.js"></script>
+	<style type="text/css">
+		* {
+			padding:0;
+			margin:0;
+			border:0;
+		}
+		#warning, #warning2, #warning3 {
+			display: none;
+			color: red;
+		}
+		#login {
+			display: none;
+			color: green;
+		}
+		#file_to_download {
+			display: none;
+		}
+		#create {
+			display: none;
+			color: black;
+		}
+		#header {
+			text-align:center;
+			width: 100wh;
+			height: 7vh;
+			background-color: lightSeaGreen;
+		}
+		#done {
+			display: none;
+			color: black;
+		}
+		.form-inline {
+			padding: 1em;
+		}
+		.form-inline * {
+			margin: 0 1em;
+		}
+		h1 {
+			size: 5vh;
+			color: white;
+		}
+		h3 {
+			margin: 1em;
+			width: 80%;
+			border-top-style: solid;
+			border-top-width: .5px;
+			border-color: black;
+		}
+
+
+body {
+
+  background-color: #eeeeee;
+}
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #1FB264;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #15824B;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #1AA059;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #1FB264;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #1FB264;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #15824B;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #cd4535;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #b02818;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+
+	</style>
+
+
+
+</head>
+<body>
+	<div id="header">
+		<h1>circlejerk</h1>
+	</div>
+	<div class="container" style="background-color: lightgrey; height: 93vh">
+		<!-- <form class="form-inline" method="POST">
+			<label class="form-control">Username <input type="text" name="username" id="username" placeholder="user"></label>
+			<label class="form-control">Password <input type="Password" name="Password" id="Password" placeholder="pass"></label>
+			<p onclick="send_create('newUser')" class="btn btn-secondary">Create</p>
+			<p onclick="send_login('login')" class="btn btn-secondary">Log in</p>
+		</form> -->
+		<h3>Upload files</h2>
+		<form id="upload-file" class="form-inline" method="post" enctype="multipart/form-data">
+		    <fieldset>
+		        <label class="form-control" for="file">Select a file
+			        <input name="file" type="file">
+			    </label>
+		    </fieldset>
+		    <fieldset>
+		        <p id="upload-file-btn" class="btn btn-secondary" onclick="file_upload()">Upload</button>
+		    </fieldset>
+		</form>
+		<p id="warning">Please enter valid login credentials!</p>
+		<p id="warning2">Missing Fields for that Input!</p>
+		<p id="warning3">Not a valid file!</p>
+		<p id="login">You're Logged In!</p>
+		<p id="create">Account created!</p>
+		<p id="done">Done!</p>
+	</div>
+</body>
+</html>
