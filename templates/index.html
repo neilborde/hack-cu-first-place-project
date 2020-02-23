@@ -22,10 +22,11 @@ body {
 }
 
 .file-upload-btn {
-  width: 100%;
+  width: 96.5%;
   margin: 0;
   color: #fff;
   background: #20B2AA;
+  opacity: 0.9;
   border: none;
   padding: 10px;
   border-radius: 4px;
@@ -36,18 +37,18 @@ body {
   font-weight: 700;
 }
 
-.file-upload-btn:hover {
+/* .file-upload-btn:hover {
   background: #20B2AA;
   color: #ffffff;
   transition: all .2s ease;
   cursor: pointer;
   opacity: 0.1;
-}
+} */
 
-.file-upload-btn:active {
-  border: 0;
-  transition: all .2s ease;
-}
+  /* .file-upload-btn:active {
+    border: 0;
+    transition: all .2s ease;
+  } */
 
 .file-upload-content {
   display: none;
@@ -56,9 +57,10 @@ body {
 
 .file-upload-input {
   position: absolute;
+  padding:
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: %;
   height: 100%;
   outline: none;
   opacity: 0;
@@ -92,6 +94,18 @@ body {
   text-transform: uppercase;
   color: teal;
   padding: 60px 0;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
 }
 .drag-text h3:hover {
   font-weight: 100;
@@ -178,12 +192,12 @@ h1 {
 <script type="text/javascript" src="../static/js/main.js"></script>
 </head>
 <div id="header">
-  <h1>circlejerk</h1>
+  <h1>app</h1>
 </div>
 <body>
 <div class="file-upload">
-  <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">UPLOAD</button>
-
+  <!-- <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">UPLOAD</button> -->
+  <input id="user" class="file-upload-btn" type="text" placeholder="Enter Username" name="uname" required>
   <div class="image-upload-wrap">
     <input id="upload-file" class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" />
     <div class="drag-text">

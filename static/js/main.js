@@ -4,14 +4,18 @@ url = 'http://127.0.0.1:5000/api/'
 function file_upload() {
 		// var form_data = new FormData($('#upload-file')[0]);
 		var filelist = document.getElementById("upload-file");
-		console.log($('#upload-file')[0]);
+		var user = document.getElementById("user").value.toString();
+		var f = filelist.files[0]
+		var filename = f.name
+		console.log(user)
 		var form_data = new FormData();
 		form_data.append('file', filelist.files[0]);
+		form_data.append('user',user)
+		//form_data.append('filepath', filename)
 		u = url + 'browser_upload'
 	    $.ajax({
 	        type: 'POST',
 	        url: u,
-          name: name,
 	        data: form_data,
 	        contentType: false,
 	        cache: false,
