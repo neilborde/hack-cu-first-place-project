@@ -19,7 +19,7 @@ class Entry(object):
         self.score = score
 
     def __repr__(self):
-        return '<File %r>' % (self.filename)
+        return '<File %r>' % (self.filepath)
 entries = Table('entries', metadata,
     Column('eid', Integer, primary_key=True),
     Column('name', String(255), unique=True),

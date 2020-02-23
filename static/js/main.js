@@ -15,7 +15,7 @@ success: function(data) {
     	positions = document.getElementById('positions');
     	for (let i = 0; i < 10; i++) {
 	    		if (data[i].score >= 0) {
-	    		positions.innerHTML += '<tr><td>'+ (i+1) + '</td><td class="username" onHover=img(user'+i+') id=user'+i+'>' + data[i].username + '</td><td>' + data[i].score + '</td></tr>';
+	    		positions.innerHTML += '<tr><td>'+ (i+1) + '</td><td class="username" onmouseout=out(\'user'+i+'\') onmouseover=img(\'user'+i+'\') id=user'+i+'>' + data[i].username + '</td><td>' + data[i].score + '</td></tr>';
 	    	}
     	}
 		// 	else {
@@ -37,7 +37,7 @@ function file_upload() {
 		u = url + 'browser_upload'
 	    $.ajax({
 	        type: 'POST',
-	        url: u,
+	        url: url+"serveimage",
 	        data: form_data,
 	        contentType: false,
 	        cache: false,
@@ -90,34 +90,3 @@ $('.image-upload-wrap').bind('dragover', function () {
     $('.image-upload-wrap').bind('dragleave', function () {
         $('.image-upload-wrap').removeClass('image-dropping');
 });
-
-function img(tag) {
-	let d = document.getElementById('display');
-	d.style.visibility = 'visible';
-
-	let user = document.getElementById(tag);
-	let u = user.innerText;
-
-	var form_data = new FormData();
-	form_data.append('user',u)
-	$.ajax({
-	        type: 'POST',
-	        url: u,
-	        data: form_data,
-	        contentType: false,
-	        cache: false,
-	        processData: false,
-	        success: function(data) {
-
-	            if (data.status) {
-	            	let img = document.getElementById('displayIMG');
-	            	img.src = data.filepath;
-	            } else {
-	            	alert('Could not upload file...')
-	            }
-	        },
-	        error: function(data) {
-
-	        }
-	    });
-}

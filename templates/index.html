@@ -219,10 +219,54 @@ table td {
   background-color: lightSeaGreen;
   padding: 1vh 1vw;
 }
+
+#displayIMG {
+  width:100%;
+}
   </style>
 <head>
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="../static/js/main.js"></script>
+<script type="text/javascript">
+function out(tag) {
+	console.log("out")
+	let d = document.getElementById('display');
+	d.style.visibility = 'hidden';
+}
+
+function img(tag) {
+	console.log("img")
+	let d = document.getElementById('display');
+	d.style.visibility = 'visible';
+
+	let user = document.getElementById(tag);
+	let u = user.innerText;
+
+	var form_data = new FormData();
+	form_data.append('user',u)
+	$.ajax({
+	        type: 'POST',
+	        url: url+"serveimage",
+	        data: form_data,
+	        contentType: false,
+	        cache: false,
+	        processData: false,
+	        success: function(data) {
+
+	            if (data.status) {
+	            	let img = document.getElementById('displayIMG');
+	            	img.src = data.filepath;
+	            } else {
+	            	alert('Could not upload file...')
+	            }
+	        },
+	        error: function(data) {
+
+	        }
+	    });
+}
+
+</script>
 </head>
 <div id="header">
   <h1>app</h1>

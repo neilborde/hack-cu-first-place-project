@@ -64,7 +64,16 @@ def get_results():
             Dict[i] = {"username" : "", "score" : -1}
     return(Dict)
 
-
+@app.route("/api/serveimage", methods=['GET','POST'])
+def serve_image():
+    connection = db_session()
+    if request.method == 'POST':
+        username = request.form['user']
+    result = connection.query(Entry).filter(Entry.name == username).first()
+    print(result)
+    filepath = result.filepath.rsplit("/",3)
+    filepath = filepath[-1]
+    return({"filepath" : "/static/files/augmented"+filepath, "status": True})
 
 
 
