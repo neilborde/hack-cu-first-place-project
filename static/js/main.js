@@ -3,30 +3,25 @@ url = 'http://127.0.0.1:5000/api/'
 
 $.ajax({
 type: 'POST',
-url: u + 'topten',
-data: form_data,
+url: url + 'topten',
 contentType: false,
 cache: false,
 processData: false,
 success: function(data) {
 
-    if (data.status) {
     	board = document.getElementById('leaderboard');
     	board.style.visibility = 'visible';
 
-    	positions = document.getElementById('positions'):
+    	positions = document.getElementById('positions');
     	for (let i = 0; i < 10; i++) {
 	    		if (data[i].score >= 0) {
-	    		positions.innerHTML += '<tr><td>'+ (i+1) + '</td><td>' + data[i].username + '</td><td>' + data[i].score + '</td></tr>';
+	    		positions.innerHTML += '<tr><td>'+ (i+1) + '</td><td class="username" onHover=img(user'+i+') id=user'+i+'>' + data[i].username + '</td><td>' + data[i].score + '</td></tr>';
 	    	}
     	}
-    } else {
-    	alert('Failed to fetch leaderboard')
-    }
-},
-error: function(data) {
-
-}
+		// 	else {
+    // 	alert('Failed to fetch leaderboard')
+    // }
+}});
 
 function file_upload() {
 		// var form_data = new FormData($('#upload-file')[0]);
@@ -95,3 +90,34 @@ $('.image-upload-wrap').bind('dragover', function () {
     $('.image-upload-wrap').bind('dragleave', function () {
         $('.image-upload-wrap').removeClass('image-dropping');
 });
+
+function img(tag) {
+	let d = document.getElementById('display');
+	d.style.visibility = 'visible';
+
+	let user = document.getElementById(tag);
+	let u = user.innerText;
+
+	var form_data = new FormData();
+	form_data.append('user',u)
+	$.ajax({
+	        type: 'POST',
+	        url: u,
+	        data: form_data,
+	        contentType: false,
+	        cache: false,
+	        processData: false,
+	        success: function(data) {
+
+	            if (data.status) {
+	            	let img = document.getElementById('displayIMG');
+	            	img.src = data.filepath;
+	            } else {
+	            	alert('Could not upload file...')
+	            }
+	        },
+	        error: function(data) {
+
+	        }
+	    });
+}

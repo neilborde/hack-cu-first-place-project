@@ -201,7 +201,23 @@ table th {
 }
 table td {
   padding: 1vh 1vw;
+  text-align: center;
   border-top: 1px dashed #20B2AA;
+}
+
+.username:hover {
+
+}
+
+#display {
+  visibility: hidden;
+  position: absolute;
+  left: 75vw;
+  width: 20vw;
+  top: 10vh;
+  min-height: 20vh;
+  background-color: lightSeaGreen;
+  padding: 1vh 1vw;
 }
   </style>
 <head>
@@ -239,11 +255,11 @@ table td {
       </tr>
     </thead>
     <tbody id="positions">
-      
-    </tbody>
-    <tbody>
-      
+
     </tbody>
   </table>
 </div>
+  <div id="display">
+  <image id="displayIMG"></image>
+  </div>
 </body>
