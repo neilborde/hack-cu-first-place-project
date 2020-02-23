@@ -23,7 +23,7 @@ function file_upload() {
 	        success: function(data) {
 
 	            if (data.status) {
-	            	alert('File uploaded!')
+	            	alert('File uploaded! Your score was ' + data.score)
 	            } else {
 	            	alert('Could not upload file...')
 	            }

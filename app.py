@@ -2,6 +2,7 @@ from flask import Flask, request, send_from_directory, send_file, render_templat
 from flask_restful import Resource, Api
 from db import db_session
 from models import Entry
+from circlejerk import driver
 import json
 import os
 
@@ -27,16 +28,18 @@ def browser_upload():
     if request.method == 'POST':
         f = request.files['file']
         user = request.form['user']
-        connection = db_session()
+
+        # connection = db_session()
         filePath = './server/files/'+f.filename
-        if (connection.query(Entry).filter(Entry.filepath == filePath).first() is None):
-            newFile = Entry(user, filePath)
-            connection.add(newFile)
-            connection.commit()
+        # if (connection.query(Entry).filter(Entry.filepath == filePath).first() is None):
+        #     newFile = Entry(user, filePath)
+        #     connection.add(newFile)
+        #     connection.commit()
 
         #print(filePath)
         f.save(filePath)
-        return {"status":True}
+        results = driver(filePath)
+        return {"status":True, "score":results[1]}
     else:
         return render_template('index.html')
 
