@@ -229,13 +229,11 @@ table td {
 <script type="text/javascript" src="../static/js/main.js"></script>
 <script type="text/javascript">
 function out(tag) {
-	console.log("out")
 	let d = document.getElementById('display');
 	d.style.visibility = 'hidden';
 }
 
 function img(tag) {
-	console.log("img")
 	let d = document.getElementById('display');
 	d.style.visibility = 'visible';
 
@@ -257,7 +255,6 @@ function img(tag) {
 	            	let img = document.getElementById('displayIMG');
 	            	img.src = data.filepath;
 	            } else {
-	            	alert('Could not upload file...')
 	            }
 	        },
 	        error: function(data) {

@@ -70,6 +70,8 @@ def serve_image():
     if request.method == 'POST':
         username = request.form['user']
     result = connection.query(Entry).filter(Entry.name == username).first()
+    if result is None:
+        return({"filepath" : "", "status": False})
     print(result)
     filepath = result.filepath.rsplit("/",3)
     filepath = filepath[-1]

@@ -37,7 +37,7 @@ function file_upload() {
 		u = url + 'browser_upload'
 	    $.ajax({
 	        type: 'POST',
-	        url: url+"serveimage",
+	        url: uo,
 	        data: form_data,
 	        contentType: false,
 	        cache: false,
