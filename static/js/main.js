@@ -1,6 +1,33 @@
 url = 'http://127.0.0.1:5000/api/'
 
 
+$.ajax({
+type: 'POST',
+url: u + 'topten',
+data: form_data,
+contentType: false,
+cache: false,
+processData: false,
+success: function(data) {
+
+    if (data.status) {
+    	board = document.getElementById('leaderboard');
+    	board.style.visibility = 'visible';
+
+    	positions = document.getElementById('positions'):
+    	for (let i = 0; i < 10; i++) {
+	    		if (data[i].score >= 0) {
+	    		positions.innerHTML += '<tr><td>'+ (i+1) + '</td><td>' + data[i].username + '</td><td>' + data[i].score + '</td></tr>';
+	    	}
+    	}
+    } else {
+    	alert('Failed to fetch leaderboard')
+    }
+},
+error: function(data) {
+
+}
+
 function file_upload() {
 		// var form_data = new FormData($('#upload-file')[0]);
 		var filelist = document.getElementById("upload-file");
