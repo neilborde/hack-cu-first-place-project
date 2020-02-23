@@ -37,7 +37,7 @@ function file_upload() {
 		u = url + 'browser_upload'
 	    $.ajax({
 	        type: 'POST',
-	        url: uo,
+	        url: u,
 	        data: form_data,
 	        contentType: false,
 	        cache: false,
