@@ -129,23 +129,6 @@ def generate_animation(standardized_voting_matrix):
     
     os.system("ffmpeg -f image2 -r 10 -i ./frames/frame%01d.png -vcodec gif animation2.gif")
 
-def driver(filename, animate=0):
-    image = get_edges(filename)
-    image = threshold(image)
-    coords = get_coords(image)
-    counts = voting_matrix(image)
-    counts = vote(counts, coords)
-    max_votes = get_max_votes(counts)
-    c = standardize_votes(counts, max_votes)
-    position = get_max_position(counts, max_votes)
-    score = score_circle(position, coords)
-    
-    
-    if animate:
-        generate_animation(c)
-        
-    return make_output(image, position), score
-
 def score_circle(position, coords):
     x = position[0][0]
     y = position[1][0]
@@ -164,3 +147,20 @@ def score_circle(position, coords):
         score += (((a - x)**2 + (yuti - b)**2)**(1/2) - radius)
         
     return (score / radius)
+    
+def driver(filename, animate=0):
+    image = get_edges(filename)
+    image = threshold(image)
+    coords = get_coords(image)
+    counts = voting_matrix(image)
+    counts = vote(counts, coords)
+    max_votes = get_max_votes(counts)
+    c = standardize_votes(counts, max_votes)
+    position = get_max_position(counts, max_votes)
+    score = score_circle(position, coords)
+    
+    
+    if animate:
+        generate_animation(c)
+        
+    return make_output(image, position), score
