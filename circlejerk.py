@@ -62,7 +62,7 @@ def voting_matrix(image):
     matrix_shape = (image.shape[0], image.shape[1], MIN_DIM//2)
     return np.zeros(matrix_shape, dtype=int, order='C')
 
-def vote(voting_matrix):
+def vote(voting_matrix, coords):
     matrix_shape = voting_matrix.shape
     for r in range(matrix_shape[2]): #The r values
         for a,b in coords:
@@ -85,16 +85,12 @@ def vote(voting_matrix):
 def get_max_votes(voting_matrix):
     return np.amax(voting_matrix)
 
-
-# In[633]:
-
-
 def standardize_votes(voting_matrix, max_votes):
-    return counts.copy() / (m/255)
-    
+    return voting_matrix.copy() / (max_votes/255)
 
 def get_max_position(voting_matrix, max_votes):
     return np.where(voting_matrix==max_votes)
+
 
 def make_output(image_matrix, max_position):
     # Make the output image rgb
@@ -130,19 +126,38 @@ def generate_animation(standardized_voting_matrix):
     
     os.system("ffmpeg -f image2 -r 10 -i ./frames/frame%01d.png -vcodec gif animation2.gif")
 
-def driver(animate):
-    image = get_edges('circle1.jpg')
+def driver(filename, animate=0):
+    image = get_edges(filename)
     image = threshold(image)
     coords = get_coords(image)
     counts = voting_matrix(image)
-    counts = vote(counts)
+    counts = vote(counts, coords)
     max_votes = get_max_votes(counts)
     c = standardize_votes(counts, max_votes)
     position = get_max_position(counts, max_votes)
+    score = score_circle(position, coords)
+    
     
     if animate:
         generate_animation(c)
         
-    return make_output(image, position)
+    return make_output(image, position), score
 
-
+def score_circle(position, coords):
+    x = position[0][0]
+    y = position[1][0]
+    radius = position[2][0]
+    
+    score = 0
+    
+    # a is the x coordinate of the pixel and b is the y coordinate
+    for a,b in coords:
+        det = ( radius**2 + (x - a)**2 )**( 1/2 )
+        yhi = y + det
+        ylo = y - det
+        
+        yuti = ylo if (y - ylo)**2 < (y - yhi)**2 else yhi
+        
+        score += (((a - x)**2 + (yuti - b)**2)**(1/2) - radius)
+        
+    return score
