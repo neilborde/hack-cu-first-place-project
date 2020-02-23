@@ -16,6 +16,10 @@ def shutdown_session(exception=None):
 def index():
     return render_template('index.html')
 
+@app.route("/api/")
+def index2():
+    return render_template('index.html')
+
 
 @app.route("/api/browser_upload", methods=['GET', 'POST'])
 def browser_upload():
@@ -25,19 +29,11 @@ def browser_upload():
         user = request.form['user']
         connection = db_session()
         filePath = './server/files/'+f.filename
-        # user = f.filename.rsplit('.',1)
-        # user = user[0]
         if (connection.query(Entry).filter(Entry.filepath == filePath).first() is None):
             newFile = Entry(user, filePath)
             connection.add(newFile)
             connection.commit()
-        # newFile = Entry('user', 'hello')
-        # connection.add(newFile)
-        # connection.commit()
-        # fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
-        # newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
-        # connection.add(newPermission)
-        # connection.commit()
+
         #print(filePath)
         f.save(filePath)
         return {"status":True}
