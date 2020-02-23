@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String
+from sqlalchemy import Table, Column, Integer, String, Float
 from sqlalchemy.orm import mapper
 from db import metadata, db_session
 
@@ -13,15 +13,17 @@ from db import metadata, db_session
 class Entry(object):
     query = db_session.query_property()
 
-    def __init__(self, name=None, filePath=None):
+    def __init__(self, name=None, filePath=None, score=None):
         self.filepath = filePath
         self.name = name
+        self.score = score
 
     def __repr__(self):
         return '<File %r>' % (self.filename)
 entries = Table('entries', metadata,
     Column('eid', Integer, primary_key=True),
     Column('name', String(255), unique=True),
-    Column('filepath', String(255), unique=True)
+    Column('filepath', String(255), unique=True),
+    Column('score', Float, unique=False)
 )
 mapper(Entry, entries)
