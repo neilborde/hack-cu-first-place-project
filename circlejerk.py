@@ -97,8 +97,8 @@ def make_output(image_matrix, max_position):
     outputImage = np.asarray(Image.fromarray(image_matrix).convert('RGB')).copy()
     
     r = max_position[2][0]
-    y0 = max_position[1][0]
-    x0 = max_position[0][0]
+    y0 = max_position[0][0]
+    x0 = max_position[1][0]
 
     xmin = x0 - r
     xmax = x0 + r
@@ -127,8 +127,8 @@ def generate_animation(standardized_voting_matrix):
     os.system("ffmpeg -f image2 -r 10 -i ./frames/frame%01d.png -vcodec gif animation2.gif")
 
 def score_circle(position, coords):
-    x = position[0][0]
-    y = position[1][0]
+    x = position[1][0]
+    y = position[0][0]
     radius = position[2][0]
     
     score = 0
