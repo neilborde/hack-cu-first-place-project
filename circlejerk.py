@@ -108,16 +108,13 @@ def make_output(image_matrix, max_position):
         det = ceil((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-
-        x_use = int(round(x)) if int(round(x)) < outputImage.shape[0] else outputImage.shape[0] - 1
-
-        outputImage[x_use, y_top, 0] = 255
-        outputImage[x_use, y_bot, 0] = 255
+        outputImage[int(floor(x)), y_top, 0] = 255
+        outputImage[int(floor(x)), y_bot, 0] = 255
         det = floor((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[x_use, y_top, 0] = 255
-        outputImage[x_use, y_bot, 0] = 255
+        outputImage[int(floor(x)), y_top, 0] = 255
+        outputImage[int(floor(x)), y_bot, 0] = 255
         
     return Image.fromarray(outputImage)
 
