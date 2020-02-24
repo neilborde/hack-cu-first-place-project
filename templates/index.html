@@ -37,19 +37,6 @@ body {
   font-weight: 700;
 }
 
-/* .file-upload-btn:hover {
-  background: #20B2AA;
-  color: #ffffff;
-  transition: all .2s ease;
-  cursor: pointer;
-  opacity: 0.1;
-} */
-
-  /* .file-upload-btn:active {
-    border: 0;
-    transition: all .2s ease;
-  } */
-
 .file-upload-content {
   display: none;
   text-align: center;
@@ -179,6 +166,7 @@ body {
 #header h1 {
   font-weight: 100;
   font-size: 7vh;
+  padding: 1vh 0;
 }
 
 #leaderboard {
@@ -205,13 +193,10 @@ table td {
   border-top: 1px dashed #20B2AA;
 }
 
-.username:hover {
-
-}
 
 #display {
   visibility: hidden;
-  position: absolute;
+  position: fixed;
   left: 75vw;
   width: 20vw;
   top: 10vh;
@@ -223,50 +208,38 @@ table td {
 #displayIMG {
   width:100%;
 }
+
+#resultImg {
+  display: grid;
+  margin: 0 auto;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.loading, .result {
+  display: none;
+  font-weight: 700;
+  color: teal;
+  border-top: solid .5px lightSeaGreen;
+  border-bottom: solid .5px lightSeaGreen;
+}
+
+.loading {
+  text-align: center;
+}
+
+
   </style>
 <head>
 <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="../static/js/main.js"></script>
 <script type="text/javascript">
-function out(tag) {
-	let d = document.getElementById('display');
-	d.style.visibility = 'hidden';
-}
 
-function img(tag) {
-	let d = document.getElementById('display');
-	d.style.visibility = 'visible';
-
-	let user = document.getElementById(tag);
-	let u = user.innerText;
-
-	var form_data = new FormData();
-	form_data.append('user',u)
-	$.ajax({
-	        type: 'POST',
-	        url: url+"serveimage",
-	        data: form_data,
-	        contentType: false,
-	        cache: false,
-	        processData: false,
-	        success: function(data) {
-
-	            if (data.status) {
-	            	let img = document.getElementById('displayIMG');
-	            	img.src = data.filepath;
-	            } else {
-	            }
-	        },
-	        error: function(data) {
-
-	        }
-	    });
-}
 
 </script>
 </head>
 <div id="header">
-  <h1>app</h1>
+  <h1>Perfect Circle</h1>
 </div>
 <body>
 <div class="file-upload">
@@ -286,6 +259,13 @@ function img(tag) {
     </div>
   </div>
 </div>
+<div class="loading file-upload">
+  <h3>Your image is being processed!</h3>
+</div>
+<div class="result file-upload">
+  <p>Your score was <span id="result"></span>! Resulting Image:</p>
+  <img id="resultImg"/>
+</div>
 <div id="leaderboard" class="file-upload">
   <table>
     <thead>
@@ -301,6 +281,6 @@ function img(tag) {
   </table>
 </div>
   <div id="display">
-  <image id="displayIMG"></image>
+  <img id="displayIMG">
   </div>
 </body>

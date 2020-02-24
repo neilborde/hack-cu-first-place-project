@@ -1,4 +1,6 @@
 __pycache__/
-frames/
 *.jpg
+*.HEIC
+static/files/
 *.gif
+frames/

@@ -1,5 +1,5 @@
 MIN_DIM = 100
-THRESHOLD = 100
+THRESHOLD = 50
 
 
 from PIL import Image, ImageFilter
@@ -97,24 +97,26 @@ def make_output(image_matrix, max_position):
     outputImage = np.asarray(Image.fromarray(image_matrix).convert('RGB')).copy()
     
     r = max_position[2][0]
-    y0 = max_position[1][0]
-    x0 = max_position[0][0]
+    y0 = max_position[0][0]
+    x0 = max_position[1][0]
 
     xmin = x0 - r
     xmax = x0 + r
 
     n = np.linspace(xmin,xmax,(xmax-xmin)*10)
     for x in n:
+        use_x = int(round(x)) if int(round(x)) < outputImage.shape[0] else outputImage.shape[0] -1
+        use_x = use_x if use_x >= 0 else 0
         det = ceil((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[int(floor(x)), y_top, 0] = 255
-        outputImage[int(floor(x)), y_bot, 0] = 255
+        outputImage[use_x, y_top, 0] = 255
+        outputImage[use_x, y_bot, 0] = 255
         det = floor((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[int(floor(x)), y_top, 0] = 255
-        outputImage[int(floor(x)), y_bot, 0] = 255
+        outputImage[use_x, y_top, 0] = 255
+        outputImage[use_x, y_bot, 0] = 255
         
     return Image.fromarray(outputImage)
 
@@ -127,8 +129,8 @@ def generate_animation(standardized_voting_matrix):
     os.system("ffmpeg -f image2 -r 10 -i ./frames/frame%01d.png -vcodec gif animation2.gif")
 
 def score_circle(position, coords):
-    x = position[0][0]
-    y = position[1][0]
+    x = position[1][0]
+    y = position[0][0]
     radius = position[2][0]
     
     score = 0
@@ -143,7 +145,7 @@ def score_circle(position, coords):
         
         score += (((a - x)**2 + (yuti - b)**2)**(1/2) - radius)
         
-    return (score / radius)
+    return score / radius
     
 def driver(filename, animate=0):
     image = get_edges(filename)

@@ -1,0 +1,5 @@
+CREATE TABLE entries (
+eid SERIAL PRIMARY KEY,
+name varchar(255),
+filepath varchar(255) UNIQUE,
+score double precision);

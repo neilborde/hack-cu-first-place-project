@@ -45,7 +45,7 @@ def browser_upload():
             connection.commit()
 
         #print(filePath)
-        return {"status":True, "score":results[1]}
+        return {"status":True, "score":results[1], "filepath" : augPath[1:]}
     else:
         return render_template('index.html')
 
@@ -81,26 +81,6 @@ def serve_image():
     filepath = filepath[-1]
     return({"filepath" : "/static/files/augmented"+filepath, "status": True})
 
-
-
-# @app.route("/api/browser_download", methods=['GET', 'POST'])
-# def browser_download():
-#     if request.method == 'POST' and os.path.exists('auth.txt'):
-#
-#         r = request.json
-#         file = r['file']
-#         connection = db_session()
-#         uid = connection.query(User.uid).filter(User.username == r['username'], User.password == r['password']).first()
-#         fid = connection.query(File.fid).filter(File.filename == file).first()
-#         if (uid is not None and fid is not None):
-#             if (connection.query(Permission).filter(Permission.fid == fid[0], Permission.uid == uid[0]).first() is not None):
-#                 w = connection.query(File.filepath).filter(File.fid == fid).first()[0]
-#                 f = os.path.abspath(w)
-#                 return send_file(os.path.dirname(f) + '/' + file,attachment_filename=file,as_attachment=True)
-#
-#         return {'file':False}
-#     else:
-#         return render_template('index.html')
 
 
 if __name__ == "__main__":
