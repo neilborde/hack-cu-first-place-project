@@ -57,12 +57,12 @@ def get_results():
     Dict = {}
     if(results.count()>=10):
         for i in range(0,10):
-            Dict[i] = {"username" : results[i].name,"score" : math.floor(results[i].score)}
+            Dict[i] = {"username" : results[i].name,"score" : results[i].score}
         print(Dict)
     else:
         counter = 0
         for i in range(results.count()):
-            Dict[i] = {"username" : results[i].name,"score" : math.floor(results[i].score)}
+            Dict[i] = {"username" : results[i].name,"score" : results[i].score}
             counter+=1
         for i in range(counter,10):
             Dict[i] = {"username" : "", "score" : -1}

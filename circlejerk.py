@@ -75,10 +75,10 @@ def vote(voting_matrix, coords):
                 else:
                     x1 = round(a - det)
                     x0 = round(a + det)
-                    if x1 < matrix_shape[0] and x1 > 0:
-                        voting_matrix[x1, y, r] += 1
-                    if x0 < matrix_shape[0] and x0 > 0 and x0 != x1:
-                        voting_matrix[x0, y, r] += 1
+                    if x1 < matrix_shape[1] and x1 >= 0:
+                        voting_matrix[y, x1, r] += 1
+                    if x0 < matrix_shape[1] and x0 >= 0 and x0 != x1:
+                        voting_matrix[y, x0, r] += 1
                         
     return voting_matrix
 
@@ -88,35 +88,51 @@ def get_max_votes(voting_matrix):
 def standardize_votes(voting_matrix, max_votes):
     return voting_matrix.copy() / (max_votes/255)
 
-def get_max_position(voting_matrix, max_votes):
-    return np.where(voting_matrix==max_votes)
+def get_max_position(voting_matrix, max_votes, coords=None):
+    if coords is not None:
+        flat = voting_matrix.flatten()
+        flat.sort()
+        top_ten = flat[-21:-1]
+        ten_coords = []
+        for i in range(len(top_ten) - 1, -1, -1):
+            mc = np.where(voting_matrix==top_ten[i])
+            ten_coords += [(mc[0][j], mc[1][j], mc[2][j]) for j in range(len(mc[0]))]
+            if len(ten_coords) >= 30:
+                break
+        
+        scores = [score_circle(c, coords) for c in ten_coords]
+        s = min(scores)
+        best_estimate = scores.index(s)
+        return ten_coords[best_estimate]
+    else:
+        score = np.where(voting_matrix==max_votes)
+        return (score[0][0], score[1][0], score[2][0])
 
 
 def make_output(image_matrix, max_position):
     # Make the output image rgb
     outputImage = np.asarray(Image.fromarray(image_matrix).convert('RGB')).copy()
-    
-    r = max_position[2][0]
-    y0 = max_position[0][0]
-    x0 = max_position[1][0]
+    r = max_position[2]
+    y0 = max_position[0]
+    x0 = max_position[1]
 
     xmin = x0 - r
     xmax = x0 + r
 
     n = np.linspace(xmin,xmax,(xmax-xmin)*10)
     for x in n:
-        use_x = int(round(x)) if int(round(x)) < outputImage.shape[0] else outputImage.shape[0] -1
+        use_x = int(round(x)) if int(round(x)) < outputImage.shape[1] else outputImage.shape[1] -1
         use_x = use_x if use_x >= 0 else 0
         det = ceil((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[use_x, y_top, 0] = 255
-        outputImage[use_x, y_bot, 0] = 255
+        outputImage[y_top, use_x, 0] = 255
+        outputImage[y_bot, use_x, 0] = 255
         det = floor((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[use_x, y_top, 0] = 255
-        outputImage[use_x, y_bot, 0] = 255
+        outputImage[y_top, use_x, 0] = 255
+        outputImage[y_bot, use_x, 0] = 255
         
     return Image.fromarray(outputImage)
 
@@ -129,23 +145,17 @@ def generate_animation(standardized_voting_matrix):
     os.system("ffmpeg -f image2 -r 10 -i ./frames/frame%01d.png -vcodec gif animation2.gif")
 
 def score_circle(position, coords):
-    x = position[1][0]
-    y = position[0][0]
-    radius = position[2][0]
-    
+    x = position[1]
+    y = position[0]
+    radius = position[2]
+
     score = 0
-    
+
     # a is the x coordinate of the pixel and b is the y coordinate
     for a,b in coords:
-        det = ( radius**2 + (x - a)**2 )**( 1/2 )
-        yhi = y + det
-        ylo = y - det
-        
-        yuti = ylo if (y - ylo)**2 < (y - yhi)**2 else yhi
-        
-        score += (((a - x)**2 + (yuti - b)**2)**(1/2) - radius)
-        
-    return score / radius
+        score += abs((((a - x)**2 + (b - y)**2)**(1/2)) - radius)
+
+    return score / len(coords)
     
 def driver(filename, animate=0):
     image = get_edges(filename)
@@ -155,10 +165,9 @@ def driver(filename, animate=0):
     counts = vote(counts, coords)
     max_votes = get_max_votes(counts)
     c = standardize_votes(counts, max_votes)
-    position = get_max_position(counts, max_votes)
+    position = get_max_position(counts, max_votes, coords)
     score = score_circle(position, coords)
-    
-    
+
     if animate:
         generate_animation(c)
         
