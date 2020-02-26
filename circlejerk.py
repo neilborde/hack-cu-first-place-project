@@ -120,19 +120,25 @@ def make_output(image_matrix, max_position):
     xmax = x0 + r
 
     n = np.linspace(xmin,xmax,(xmax-xmin)*10)
-    for x in n:
-        use_x = int(round(x)) if int(round(x)) < outputImage.shape[1] else outputImage.shape[1] -1
-        use_x = use_x if use_x >= 0 else 0
+    for x_curr in n:
+        x = int(x_curr)
+        if x < 0 or x > outputImage.shape[1]:
+            continue
+
         det = ceil((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[y_top, use_x, 0] = 255
-        outputImage[y_bot, use_x, 0] = 255
+        if (y_top < outputImage.shape[0]):
+            outputImage[y_top, x, 0] = 255
+        if (y_bot >= 0):
+            outputImage[y_bot, x, 0] = 255
         det = floor((r**2 - (x - x0)**2)**(1/2))
         y_top = int(y0 + det)
         y_bot = int(y0 - det)
-        outputImage[y_top, use_x, 0] = 255
-        outputImage[y_bot, use_x, 0] = 255
+        if (y_top < outputImage.shape[0]):
+            outputImage[y_top, x, 0] = 255
+        if (y_bot >= 0):
+            outputImage[y_bot, x, 0] = 255
         
     return Image.fromarray(outputImage)
 
